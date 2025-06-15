@@ -1,11 +1,15 @@
 const express =  require("express");
 const app = express();
+const cors = require("cors");
 const ErrorHandler = require("./middleware/ErrorHandler");
 const TodoRoutes = require("./route/TodoRoute");
 require("dotenv").config();
 
 //neccesary middlewares
 app.use(express.json())
+
+//cors middleware
+app.use(cors());
 
 //Database connection :-
 require("./database");
