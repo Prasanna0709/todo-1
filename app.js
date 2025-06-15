@@ -11,6 +11,9 @@ app.use(express.json())
 //cors middleware
 app.use(cors());
 
+//normal url:
+app.get("/hello",(req,res)=>{res.send("Hello bro !")});
+
 //Database connection :-
 require("./database");
 
