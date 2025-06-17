@@ -52,4 +52,23 @@ const updateTask = async (id,task,description,priority)=>{
     }
 }
 
-module.exports = {createTask,removeTask,getAllTasks,updateTask};
+const updateStatus = async (id,status) =>{
+    try{
+        const existingTask = await Task.findById(id);
+
+        if(!existingTask){
+            throw new AppError(404 , "fail" , "Task not found");
+        }
+
+        existingTask.completed = status;
+
+        await existingTask.save();
+        return existingTask;
+    }catch(err)
+    {
+        console.error("Error in updateStatus:", err);
+        throw new AppError(500,"fail","Something went wrong in updating the status !");
+    }
+}
+
+module.exports = {createTask,removeTask,getAllTasks,updateTask,updateStatus};

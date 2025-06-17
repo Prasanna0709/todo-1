@@ -1,4 +1,4 @@
-const {createTask,removeTask,getAllTasks,updateTask} = require("../services/TodoService");
+const {createTask,removeTask,getAllTasks,updateTask,updateStatus} = require("../services/TodoService");
 const AppError = require("../utils/errorUtils/AppError");
 
 const addTask = async (req,res,next) =>{
@@ -56,4 +56,21 @@ const editTask = async (req,res,next)=>{
     }
 }
 
-module.exports = {addTask,deleteTask,alltasks,editTask};
+const editStatus = async (req,res,next) => {
+    const {id,completed} = req.body;
+    console.log(id,completed);
+    
+    if(!id){
+        return next(new AppError(400 , "fail" , "Please select the Valid task !"));
+    }
+
+    
+    const result = await updateStatus(id,completed);
+    if(!result){
+        return next(new AppError(500 , "fail" , "Something went wrong in updating the status !"));
+    }
+
+    return res.status(200).json({status:"✅ Success",message:"Task Status is updated",data:result});
+}
+
+module.exports = {addTask,deleteTask,alltasks,editTask,editStatus};
